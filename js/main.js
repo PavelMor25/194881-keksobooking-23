@@ -1,27 +1,23 @@
 function getRandomNumber (minRange, maxRange) {
   if (minRange < 0 || maxRange < 0) {
-    return 'Параметры должен быть положительным';
+    throw new Error('Параметры должен быть положительным');
   }
   if (maxRange <= minRange) {
-    return 'Вверхняя граница диапазона должна быть больше нижней';
+    throw new Error('Вверхняя граница диапазона должна быть больше нижней');
   }
-  return Math.floor(Math.random()*(maxRange - minRange)) + minRange;
+  return Math.floor(Math.random() * (maxRange - minRange)) + minRange;
 }
 
 getRandomNumber(30, 60);
 
 function getRandomСoordinate (minRange, maxRange, numbersAfterPoint) {
   if (minRange < 0 || maxRange < 0) {
-    return 'Параметры должен быть положительным';
+    throw new Error('Параметры должен быть положительным');
   }
   if (maxRange < minRange) {
-    return 'Вверхняя граница диапазона должна быть больше нижней';
+    throw new Error('Вверхняя граница диапазона должна быть больше или равна нижней');
   }
-  let coordinate = Math.floor(Math.random()*(maxRange - minRange) + minRange) + '.';
-  for (let i = 1; i <= numbersAfterPoint; i++) {
-    coordinate += Math.floor(Math.random()*9);
-  }
-  return Number(coordinate);
+  return (maxRange - minRange) ? (Math.random() * (maxRange - minRange) + minRange).toFixed(numbersAfterPoint) : (Math.random() + minRange).toFixed(numbersAfterPoint);
 }
 
 getRandomСoordinate(30, 60, 4);
