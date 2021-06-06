@@ -1,22 +1,14 @@
-function getRandomNumber (minRange, maxRange) {
-  if (minRange < 0 || maxRange < 0) {
-    throw new Error('Параметры должен быть положительным');
-  }
-  if (maxRange <= minRange) {
-    throw new Error('Вверхняя граница диапазона должна быть больше нижней');
-  }
-  return Math.floor(Math.random() * (maxRange - minRange)) + minRange;
+function getRandomNumber (firstArg, secondArg) {
+  const minRange = Math.ceil(Math.min(Math.abs(firstArg), Math.abs(secondArg)));
+  const maxRange = Math.floor(Math.max(Math.abs(firstArg), Math.abs(secondArg)));
+  return Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
 }
 
 getRandomNumber(30, 60);
 
-function getRandomСoordinate (minRange, maxRange, numbersAfterPoint) {
-  if (minRange < 0 || maxRange < 0) {
-    throw new Error('Параметры должен быть положительным');
-  }
-  if (maxRange < minRange) {
-    throw new Error('Вверхняя граница диапазона должна быть больше или равна нижней');
-  }
+function getRandomСoordinate (firstArg, secondArg, numbersAfterPoint = 1) {
+  const minRange = Math.min(Math.abs(firstArg), Math.abs(secondArg));
+  const maxRange =Math.max(Math.abs(firstArg), Math.abs(secondArg));
   return (maxRange - minRange) ? (Math.random() * (maxRange - minRange) + minRange).toFixed(numbersAfterPoint) : (Math.random() + minRange).toFixed(numbersAfterPoint);
 }
 
