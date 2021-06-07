@@ -22,27 +22,31 @@ const PHOTOS = [
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 const getRandomArray = (elements) => elements.slice(getRandomNumber(0,elements.length - 1));
 
-const generateObject = (index) => ({
-  author: {avatar: `img/avatars/user0${  index  }.png`},
-  offer: {
-    title: getRandomArrayElement(TITLE),
-    adress: `${this.location.lat  } ${  this.location.lng}`, // не могу понять как реализовать
-    price: getRandomNumber(5000, 25000),
-    type: getRandomArrayElement(TYPE_LODGING),
-    rooms: getRandomNumber(1, 5),
-    guests: getRandomNumber(1, 9),
-    checkin: getRandomArrayElement(TIME),
-    checkout: getRandomArrayElement(TIME),
-    features: getRandomArray(FEATURES),
-    description: 'Сдается по прекрасной цене',
-    photos: getRandomArray(PHOTOS),
-  },
-  location: {
-    lat: getRandomСoordinate(35.65, 35.7, 5),
-    lng: getRandomСoordinate(139.7, 139.8, 5),
-  },
-});
+const generateObject = (index) => {
+  const lat = getRandomСoordinate(35.65, 35.7, 5);
+  const lng = getRandomСoordinate(139.7, 139.8, 5);
+  return {
+    author: {avatar: `img/avatars/user0${  index  }.png`},
+    offer: {
+      title: getRandomArrayElement(TITLE),
+      address: `${lat  } ${  lng}`, // не могу понять как реализовать
+      price: getRandomNumber(5000, 25000),
+      type: getRandomArrayElement(TYPE_LODGING),
+      rooms: getRandomNumber(1, 5),
+      guests: getRandomNumber(1, 9),
+      checkin: getRandomArrayElement(TIME),
+      checkout: getRandomArrayElement(TIME),
+      features: getRandomArray(FEATURES),
+      description: 'Сдается по прекрасной цене',
+      photos: getRandomArray(PHOTOS),
+    },
+    location: {
+      lat: lat,
+      lng: lng,
+    },
+  };
+};
 
-const createArrayLodging = new Array(10).fill(null).map((value, index) => generateObject(index + 1));
+const ArrayLodging = new Array(10).fill(null).map((__, index) => generateObject(index + 1));
 
-createArrayLodging;
+ArrayLodging;
