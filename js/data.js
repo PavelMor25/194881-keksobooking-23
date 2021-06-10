@@ -1,14 +1,4 @@
-function getRandomNumber (firstArg, secondArg) {
-  const minRange = Math.ceil(Math.min(Math.abs(firstArg), Math.abs(secondArg)));
-  const maxRange = Math.floor(Math.max(Math.abs(firstArg), Math.abs(secondArg)));
-  return Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
-}
-
-function getRandomСoordinate (firstArg, secondArg, numbersAfterPoint = 1) {
-  const minRange = Math.min(Math.abs(firstArg), Math.abs(secondArg));
-  const maxRange =Math.max(Math.abs(firstArg), Math.abs(secondArg));
-  return (maxRange - minRange) ? (Math.random() * (maxRange - minRange) + minRange).toFixed(numbersAfterPoint) : (Math.random() + minRange).toFixed(numbersAfterPoint);
-}
+import {getRandomNumber, getRandomСoordinate, getRandomArrayElement, getRandomArray} from './utils.js';
 
 const TITLE = ['от частного лица', 'от агенства'];
 const TYPE_LODGING = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -18,8 +8,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
-const getRandomArray = (elements) => elements.slice(getRandomNumber(0,elements.length - 1));
+
 
 const generateObject = (index) => {
   const lat = getRandomСoordinate(35.65, 35.7, 5);
