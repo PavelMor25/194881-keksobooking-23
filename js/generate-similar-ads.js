@@ -22,13 +22,20 @@ const renderFeaturesAd = (element, features) => {
   const listFeatures = element.querySelector('.popup__features');
   listFeatures.innerHTML = '';
   const listFragment = document.createDocumentFragment();
-  features.map((feature) => `popup__feature--${feature}`).forEach((item) => {
+  features.forEach((item) => {
     const listItem = document.createElement('li');
     listItem.classList.add('popup__feature');
-    listItem.classList.add(item);
+    listItem.classList.add(`popup__feature--${item}`);
     listFragment.appendChild(listItem);
   });
   listFeatures.appendChild(listFragment);
+};
+
+const checkFillData = (firstData, element, selector, otherResult, secondData = 1) => {
+  if (firstData && secondData) {
+    return otherResult ? element.querySelector(selector).textContent = otherResult : element.querySelector(selector).textContent = firstData;
+  }
+  return element.querySelector(selector).classList.add('hidden');
 };
 
 const typeTranslate = {
@@ -41,14 +48,14 @@ const typeTranslate = {
 
 similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}}) => {
   const adElement = similarAdTemplate.cloneNode(true);
-  title ? adElement.querySelector('.popup__title').textContent = title : adElement.querySelector('.popup__title').classList.add('hidden');
-  address ? adElement.querySelector('.popup__text--address').textContent = address : adElement.querySelector('.popup__text--address').classList.add('hidden');
-  price ? adElement.querySelector('.popup__text--price').textContent = `${price  } ₽/ночь` : adElement.querySelector('.popup__text--price').classList.add('hidden');
-  type ? adElement.querySelector('.popup__type').textContent = typeTranslate[type] : adElement.querySelector('.popup__type').classList.add('hidden');
-  (rooms && guests) ? adElement.querySelector('.popup__text--capacity').textContent = `${rooms  } комнаты для ${  guests  } гостей` : adElement.querySelector('.popup__text--capacity').classList.add('hidden');
-  (checkin && checkout) ? adElement.querySelector('.popup__text--time').textContent = `Заезд после ${ checkin}, выезд до ${ checkout}` : adElement.querySelector('.popup__text--time').classList.add('hidden');
+  checkFillData(title, adElement, '.popup__title');
+  checkFillData(address, adElement, '.popup__text--address');
+  checkFillData(price, adElement, '.popup__text--price', `${price  } ₽/ночь`);
+  checkFillData(type, adElement, '.popup__type', typeTranslate[type]);
+  checkFillData(rooms, adElement, '.popup__text--capacity', `${rooms  } комнаты для ${  guests  } гостей`, guests);
+  checkFillData(checkin, adElement, '.popup__text--time', `Заезд после ${ checkin}, выезд до ${ checkout}`, checkout);
   renderFeaturesAd(adElement, features);
-  description ? adElement.querySelector('.popup__description').textContent = description : adElement.querySelector('.popup__description').classList.add('hidden');
+  checkFillData(description, adElement, '.popup__description');
   renderPhotosAd(adElement, photos);
   adElement.querySelector('.popup__avatar').src = avatar;
   similarListFragment.appendChild(adElement);
