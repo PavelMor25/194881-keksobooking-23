@@ -30,30 +30,26 @@ const activateForm = () => {
   mapFiltersFormFeatures.removeAttribute('disabled', null);
 };
 
-const disabledOption = () => {
-  adCapacitySelectOption.forEach((item) => {
-    item.setAttribute('disabled', 'disabled');
-  });
+const RoomsValue = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
 };
 
-const activateOption = (value) => {
-  adCapacitySelectOption.forEach((item) => {
-    if (value >= item.value && item.value >= 1) {
-      item.removeAttribute('disabled', null);
-    } else if (value >= 100 && item.value <= 0) {
-      item.removeAttribute('disabled', null);
-    }
+const onRoomChange = (evt) => {
+  adCapacitySelectOption.forEach((option) => {
+    option.disabled = true;
   });
-};
 
-const checkRoomsCapacity = () => {
-  if (adRoomNumberSelect.value >= 100) {
-    adCapacitySelect.value = 0;
-  } else if (adCapacitySelect.value > adRoomNumberSelect.value) {
-    adCapacitySelect.value = adRoomNumberSelect.value;
-  } else if (adCapacitySelect.value <= 0) {
-    adCapacitySelect.value = adRoomNumberSelect.value;
-  }
+  RoomsValue[evt.value].forEach((seatsAmount) => {
+    adCapacitySelectOption.forEach((option) => {
+      if (Number(option.value) === seatsAmount) {
+        option.disabled = false;
+        option.selected = true;
+      }
+    });
+  });
 };
 
 adTitleInput.addEventListener('input', () => {
@@ -101,14 +97,10 @@ adTimeOutSelect.addEventListener('change', () => {
   adTimeInSelect.value = adTimeOutSelect.value;
 });
 
-disabledOption();
-activateOption(adRoomNumberSelect.value);
-checkRoomsCapacity();
+onRoomChange(adRoomNumberSelect);
 
 adRoomNumberSelect.addEventListener('change', (evt) =>{
-  disabledOption();
-  activateOption(evt.target.value);
-  checkRoomsCapacity();
+  onRoomChange(evt.target);
 });
 
 export {diactivateForm, activateForm};
