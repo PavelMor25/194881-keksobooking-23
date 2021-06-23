@@ -42,7 +42,7 @@ const onRoomChange = (evt) => {
     option.disabled = true;
   });
 
-  RoomsValue[evt.target.value].forEach((seatsAmount) => {
+  RoomsValue[evt.value].forEach((seatsAmount) => {
     adCapacitySelectOption.forEach((option) => {
       if (Number(option.value) === seatsAmount) {
         option.disabled = false;
@@ -50,25 +50,6 @@ const onRoomChange = (evt) => {
       }
     });
   });
-};
-
-const onRoomStart = (item) => {
-  adCapacitySelectOption.forEach((option) => {
-    option.disabled = true;
-  });
-
-  RoomsValue[item.value].forEach((seatsAmount) => {
-    adCapacitySelectOption.forEach((option) => {
-      if (Number(option.value) === seatsAmount) {
-        option.disabled = false;
-        option.selected = true;
-      }
-    });
-  });
-
-  if (!RoomsValue[item.value].includes(Number(adCapacitySelect.value))) {
-    adCapacitySelect.value = adRoomNumberSelect.value;
-  }
 };
 
 adTitleInput.addEventListener('input', () => {
@@ -116,10 +97,10 @@ adTimeOutSelect.addEventListener('change', () => {
   adTimeInSelect.value = adTimeOutSelect.value;
 });
 
-onRoomStart(adRoomNumberSelect);
+onRoomChange(adRoomNumberSelect);
 
 adRoomNumberSelect.addEventListener('change', (evt) =>{
-  onRoomChange(evt);
+  onRoomChange(evt.target);
 });
 
 export {diactivateForm, activateForm};
