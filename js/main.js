@@ -1,5 +1,5 @@
 import './utils.js';
-import './generate-similar-ads.js';
+import {similarAds} from './generate-similar-ads.js';
 import {diactivateForm, activateForm, adAddressInput} from './form.js';
 
 diactivateForm();
@@ -34,4 +34,22 @@ MainPinmarker.addTo(map);
 
 MainPinmarker.on('moveend', (evt) => {
   adAddressInput.value = evt.target.getLatLng();
+});
+
+similarAds.forEach(({location: {lat, lng}}) => {
+  const pinIcon = L.icon({
+    iconUrl: '../img/pin.svg',
+    iconSize: [52, 52],
+    iconAnchor: [26, 52],
+  });
+
+  const marker = L.marker({
+    lat,
+    lng,
+  },
+  {
+    pinIcon,
+  });
+
+  marker.addTo(map);
 });

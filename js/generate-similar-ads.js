@@ -1,8 +1,7 @@
 import {arrayLodging} from './data.js';
 
-const mapCanvas = document.querySelector('.map__canvas');
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAds = arrayLodging(2);
+const similarAds = arrayLodging(10);
 
 const similarListFragment = document.createDocumentFragment();
 
@@ -61,6 +60,4 @@ similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, room
   similarListFragment.appendChild(adElement);
 });
 
-// mapCanvas.appendChild(similarListFragment);
-
-export {typeInform};
+export {typeInform, similarAds};

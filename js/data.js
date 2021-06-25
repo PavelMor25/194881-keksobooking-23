@@ -37,4 +37,5 @@ const generateObject = (index) => {
 
 const arrayLodging = (arrayLength) => new Array(arrayLength).fill(null).map((__, index) => generateObject(index + 1));
 
+
 export {arrayLodging};
