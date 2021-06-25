@@ -14,7 +14,7 @@ const generateObject = (index) => {
   const lat = getRandomСoordinate(35.65, 35.7, 5);
   const lng = getRandomСoordinate(139.7, 139.8, 5);
   return {
-    author: {avatar: `img/avatars/user0${  index  }.png`},
+    author: {avatar: `img/avatars/user${  (index>=10) ? index : `0${ index}` }.png`},
     offer: {
       title: getRandomArrayElement(TITLE),
       address: `${lat  } ${  lng}`,
