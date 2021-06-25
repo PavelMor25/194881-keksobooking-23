@@ -61,6 +61,6 @@ similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, room
   similarListFragment.appendChild(adElement);
 });
 
-mapCanvas.appendChild(similarListFragment);
+// mapCanvas.appendChild(similarListFragment);
 
 export {typeInform};
