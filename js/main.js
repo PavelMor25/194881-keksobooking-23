@@ -1,6 +1,6 @@
 import './utils.js';
 import './generate-similar-ads.js';
-import {diactivateForm, activateForm} from './form.js';
+import {diactivateForm, activateForm, adAddressInput} from './form.js';
 
 diactivateForm();
 
@@ -31,3 +31,7 @@ const MainPinmarker = L.marker(
 );
 
 MainPinmarker.addTo(map);
+
+MainPinmarker.on('moveend', (evt) => {
+  adAddressInput.value = evt.target.getLatLng();
+});
