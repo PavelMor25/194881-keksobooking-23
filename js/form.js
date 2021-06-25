@@ -10,6 +10,7 @@ const adCapacitySelect = adForm.querySelector('#capacity');
 const adCapacitySelectOption = adCapacitySelect.querySelectorAll('option');
 const adTimeInSelect = adForm.querySelector('#timein');
 const adTimeOutSelect = adForm.querySelector('#timeout');
+const adAddressInput = adForm.querySelector('#address');
 const mapFiltersForm = document.querySelector('.map__filters');
 const mapFiltersFormElements = mapFiltersForm.querySelectorAll('.map__filter');
 const mapFiltersFormFeatures = mapFiltersForm.querySelector('.map__features');
@@ -103,4 +104,4 @@ adRoomNumberSelect.addEventListener('change', (evt) =>{
   onRoomChange(evt.target);
 });
 
-export {diactivateForm, activateForm};
+export {diactivateForm, activateForm, adAddressInput};

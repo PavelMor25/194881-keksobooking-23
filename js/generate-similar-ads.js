@@ -1,8 +1,7 @@
 import {arrayLodging} from './data.js';
 
-const mapCanvas = document.querySelector('.map__canvas');
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAds = arrayLodging(2);
+const similarAds = arrayLodging(10);
 
 const similarListFragment = document.createDocumentFragment();
 
@@ -61,6 +60,20 @@ similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, room
   similarListFragment.appendChild(adElement);
 });
 
-mapCanvas.appendChild(similarListFragment);
+const createCustomPopup = ({author: {avatar}, offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}}) => {
+  const popupElement = similarAdTemplate.cloneNode(true);
+  checkFillData(title, popupElement, '.popup__title');
+  checkFillData(address, popupElement, '.popup__text--address');
+  checkFillData(price, popupElement, '.popup__text--price', `${price  } ₽/ночь`);
+  checkFillData(type, popupElement, '.popup__type', typeInform[type].nameTranslate);
+  checkFillData(rooms, popupElement, '.popup__text--capacity', `${rooms  } комнаты для ${  guests  } гостей`, guests);
+  checkFillData(checkin, popupElement, '.popup__text--time', `Заезд после ${ checkin}, выезд до ${ checkout}`, checkout);
+  renderFeaturesAd(popupElement, features);
+  checkFillData(description, popupElement, '.popup__description');
+  renderPhotosAd(popupElement, photos);
+  popupElement.querySelector('.popup__avatar').src = avatar;
 
-export {typeInform};
+  return popupElement;
+};
+
+export {typeInform, similarAds, createCustomPopup};
