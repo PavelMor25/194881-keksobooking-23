@@ -1,6 +1,7 @@
-import './utils.js';
-import {createCustomPopup, similarAds} from './generate-similar-ads.js';
+import {showAlert} from './utils.js';
+import {createCustomPopup} from './generate-similar-ads.js';
 import {diactivateForm, activateForm, adAddressInput} from './form.js';
+import {getData} from './api.js';
 
 diactivateForm();
 
@@ -36,25 +37,29 @@ MainPinmarker.on('moveend', (evt) => {
   adAddressInput.value = evt.target.getLatLng();
 });
 
-similarAds.forEach((aD) => {
-  const {lat, lng} = aD['location'];
+const generatePinMarker = (ad) =>{
+  ad.forEach((element) => {
+    const {lat, lng} = element['location'];
 
-  const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    const pinIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [52, 52],
+      iconAnchor: [26, 52],
+    });
+
+    const marker = L.marker({
+      lat,
+      lng,
+    },
+    {
+      pinIcon,
+    });
+
+    marker.addTo(map).bindPopup(createCustomPopup(element)),
+    {
+      keepInView: true,
+    };
   });
+};
 
-  const marker = L.marker({
-    lat,
-    lng,
-  },
-  {
-    pinIcon,
-  });
-
-  marker.addTo(map).bindPopup(createCustomPopup(aD)),
-  {
-    keepInView: true,
-  };
-});
+getData(generatePinMarker, showAlert);
