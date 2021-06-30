@@ -35,4 +35,7 @@ const showAlert = (message) => {
   }, 5000);
 };
 
-export {getRandomNumber, getRandomСoordinate, getRandomArrayElement, getRandomArray, showAlert};
+const isEscEvent = (evt) => (evt.key === 'Escape' || evt.key === 'Esc');
+
+
+export {getRandomNumber, getRandomСoordinate, getRandomArrayElement, getRandomArray, isEscEvent, showAlert};

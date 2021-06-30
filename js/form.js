@@ -1,4 +1,6 @@
+import {isEscEvent} from './utils.js';
 import {typeInform} from './generate-similar-ads.js';
+import {sendData} from './api.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormElement = adForm.querySelectorAll('.ad-form__element');
@@ -30,6 +32,7 @@ const activateForm = () => {
   mapFiltersFormElements.forEach((item) => item.removeAttribute('disabled', null));
   mapFiltersFormFeatures.removeAttribute('disabled', null);
 };
+
 
 const RoomsValue = {
   1: [1],
@@ -104,4 +107,47 @@ adRoomNumberSelect.addEventListener('change', (evt) =>{
   onRoomChange(evt.target);
 });
 
-export {diactivateForm, activateForm, adAddressInput};
+const createMessage = (message) => {
+  const messageTemplate = document.querySelector(`#${message}`).content.querySelector(`.${message}`);
+  const element = messageTemplate.cloneNode(true);
+  document.body.appendChild(element);
+
+  const onMessageEscKeyDown = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      element.remove();
+      closeMessage();
+    }
+  };
+
+  const openMessage = () => document.addEventListener('keydown', onMessageEscKeyDown);
+  const closeMessage = () => document.removeEventListener('keydown', onMessageEscKeyDown);
+
+  openMessage();
+
+  element.addEventListener('click', () => {
+    element.remove();
+    closeMessage();
+  });
+
+};
+
+const resetForm = (resetMarker) => {
+  adForm.reset();
+  onRoomChange(adRoomNumberSelect);
+  resetMarker();
+};
+
+const dataUserFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => {resetForm(onSuccess); createMessage('success');},
+      () => createMessage('error'),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {diactivateForm, activateForm, adAddressInput, dataUserFormSubmit, resetForm};
