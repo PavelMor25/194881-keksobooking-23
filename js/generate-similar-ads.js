@@ -7,6 +7,11 @@ const similarListFragment = document.createDocumentFragment();
 
 const renderPhotosAd = (element, photos) => {
   const listPhotos = element.querySelector('.popup__photos');
+  if (!photos) {
+    listPhotos.classList.add('hidden');
+    listPhotos.innerHTML = '';
+    return;
+  }
   const listFragment = document.createDocumentFragment();
   photos.forEach((item) => {
     const listItemPhoto = listPhotos.querySelector('.popup__photo').cloneNode(true);
@@ -19,6 +24,11 @@ const renderPhotosAd = (element, photos) => {
 
 const renderFeaturesAd = (element, features) => {
   const listFeatures = element.querySelector('.popup__features');
+  if (!features) {
+    listFeatures.classList.add('hidden');
+    listFeatures.innerHTML = '';
+    return;
+  }
   listFeatures.innerHTML = '';
   const listFragment = document.createDocumentFragment();
   features.forEach((item) => {
