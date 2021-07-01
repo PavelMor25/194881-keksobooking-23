@@ -134,6 +134,7 @@ const createMessage = (message) => {
 
 const resetForm = (resetMarker) => {
   adForm.reset();
+  mapFiltersForm.reset();
   onRoomChange(adRoomNumberSelect);
   resetMarker();
 };
