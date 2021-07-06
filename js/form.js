@@ -128,6 +128,7 @@ const createMessage = (message) => {
   };
 
   const openMessage = () => document.addEventListener('keydown', onMessageEscKeyDown);
+
   const closeMessage = () => document.removeEventListener('keydown', onMessageEscKeyDown);
 
   openMessage();
@@ -151,7 +152,7 @@ const dataUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     sendData(
-      () => {resetForm(onSuccess); createMessage('success');},
+      () => {onSuccess(); createMessage('success');},
       () => createMessage('error'),
       new FormData(evt.target),
     );

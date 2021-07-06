@@ -1,80 +1,29 @@
-import {createCustomPopup, compareAd} from './generate-similar-ads.js';
-import {diactivateForm, activateForm, adAddressInput, resetForm, dataUserFormSubmit, mapFilterChange} from './form.js';
+import {resetForm, dataUserFormSubmit, mapFilterChange} from './form.js';
 import {getData} from './api.js';
 import {debounce} from './utils/debounce.js';
+import {compareAd} from './filter.js';
+import {resetMarker, generatePinMarker, markerGroup} from './map.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
 
-diactivateForm();
-
-const map = L.map('map-canvas').on('load',() => {activateForm();}).setView({lat: 35.6894, lng: 139.692}, 10);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
-
-const mainPinIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const mainPinMarker = L.marker(
-  {
-    lat: 35.6894,
-    lng: 139.692,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
-
-const resetMarker = () => mainPinMarker.setLatLng({lat: 35.6894, lng: 139.692});
-
-resetButton.addEventListener('click', (evt) =>{
-  evt.preventDefault();
-  resetForm(resetMarker);
-});
-
-mainPinMarker.addTo(map);
-
-mainPinMarker.on('moveend', (evt) => {
-  adAddressInput.value = evt.target.getLatLng();
-});
-
-const markerGroup = L.layerGroup().addTo(map);
-
-const generatePinMarker = (ad) => {
-  ad.slice().sort(compareAd).slice(0, 10).map((element) => {
-    const {lat, lng} = element['location'];
-
-    const pinIcon = L.icon({
-      iconUrl: '../img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
-
-    const marker = L.marker({
-      lat,
-      lng,
-    },
-    {
-      pinIcon,
-    });
-
-    marker.addTo(markerGroup).bindPopup(createCustomPopup(element)),
-    {
-      keepInView: true,
-    };
-  });
-};
-
 getData((ad) => {
   generatePinMarker(ad);
-  mapFilterChange(debounce(() =>{markerGroup.clearLayers();  generatePinMarker(ad);}));
+
+  resetButton.addEventListener('click', (evt) =>{
+    evt.preventDefault();
+    resetForm(resetMarker);
+    markerGroup.clearLayers();
+    generatePinMarker(ad);
+  });
+
+  mapFilterChange(debounce(() => {
+    markerGroup.clearLayers();
+    const filteredAd = compareAd(ad);
+    generatePinMarker(filteredAd);}));
+
+  dataUserFormSubmit(() =>{
+    resetForm(resetMarker);
+    markerGroup.clearLayers();
+    generatePinMarker(ad);
+  });
 });
-dataUserFormSubmit(resetMarker);
