@@ -3,6 +3,7 @@ import {getData} from './api.js';
 import {debounce} from './utils/debounce.js';
 import {compareAd} from './filter.js';
 import {resetMarker, generatePinMarker, markerGroup} from './map.js';
+import './preview-photo.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
 
