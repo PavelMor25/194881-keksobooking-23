@@ -1,9 +1,9 @@
-const getData = (onSuccess, onFail) => {
+import {showAlert} from './utils.js';
+
+const getData = (onSuccess) => {
   fetch('https://23.javascript.pages.academy/keksobooking/data')
-    .then((responce) => (responce.ok) ? responce.json() : onFail('Не удалось загрузить данные'))
-    .then((ad) => {
-      onSuccess(ad);
-    });
+    .then((responce) => (responce.ok) ? responce.json() : showAlert('Не удалось загрузить данные'))
+    .then(onSuccess);
 };
 
 const sendData = (onSuccess, onFail, body) => {

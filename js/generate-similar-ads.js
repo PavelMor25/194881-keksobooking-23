@@ -70,7 +70,66 @@ similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, room
   similarListFragment.appendChild(adElement);
 });
 
+const getRangePrice = (price) => {
+  let range = 'middle';
+
+  if (price < 10000) {
+    range = 'low';
+  }
+
+  if (price > 50000) {
+    range = 'high';
+  }
+
+  return range;
+};
+
+
+const getrankAd = ({offer: {type, rooms, guests, price, features}}) => {
+  const housingTypeFilter = document.querySelector('#housing-type');
+  const housingPriceFilter = document.querySelector('#housing-price');
+  const housingRoomsFilter = document.querySelector('#housing-rooms');
+  const housingGuestsFilter = document.querySelector('#houding-guests');
+  const housingFeaturesFilter = document.querySelectorAll('[name="features"]');
+
+  let rank = 0;
+
+  if (type === housingTypeFilter.value) {
+    rank += 100;
+  }
+
+  if (getRangePrice(price) === housingPriceFilter.value) {
+    rank += 10;
+  }
+
+  if (rooms >= Number(housingRoomsFilter.value)) {
+    rooms === Number(housingRoomsFilter.value) ? rank += 20 : rank += 10;
+  }
+
+  if (guests === Number(housingGuestsFilter)) {
+    rank += 10;
+  }
+
+  if (features) {
+    housingFeaturesFilter.forEach((element) => {
+      if (element.checked && features.includes(element.value)) {
+        rank += 1;
+      }
+    });
+  }
+
+  return rank;
+};
+
+const compareAd = (adA, adB) => {
+  const rankA = getrankAd(adA);
+  const rankB = getrankAd(adB);
+
+  return rankB - rankA;
+};
+
 const createCustomPopup = ({author: {avatar}, offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}}) => {
+
   const popupElement = similarAdTemplate.cloneNode(true);
   checkFillData(title, popupElement, '.popup__title');
   checkFillData(address, popupElement, '.popup__text--address');
@@ -86,4 +145,4 @@ const createCustomPopup = ({author: {avatar}, offer: {title, address, price, typ
   return popupElement;
 };
 
-export {typeInform, similarAds, createCustomPopup};
+export {typeInform, similarAds, createCustomPopup, compareAd};

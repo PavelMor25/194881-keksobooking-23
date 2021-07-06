@@ -1,7 +1,7 @@
-import {showAlert} from './utils.js';
-import {createCustomPopup} from './generate-similar-ads.js';
-import {diactivateForm, activateForm, adAddressInput, resetForm, dataUserFormSubmit} from './form.js';
+import {createCustomPopup, compareAd} from './generate-similar-ads.js';
+import {diactivateForm, activateForm, adAddressInput, resetForm, dataUserFormSubmit, mapFilterChange} from './form.js';
 import {getData} from './api.js';
+import {debounce} from './utils/debounce.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
 
@@ -46,8 +46,10 @@ mainPinMarker.on('moveend', (evt) => {
   adAddressInput.value = evt.target.getLatLng();
 });
 
-const generatePinMarker = (ad) =>{
-  ad.forEach((element) => {
+const markerGroup = L.layerGroup().addTo(map);
+
+const generatePinMarker = (ad) => {
+  ad.slice().sort(compareAd).slice(0, 10).map((element) => {
     const {lat, lng} = element['location'];
 
     const pinIcon = L.icon({
@@ -64,12 +66,15 @@ const generatePinMarker = (ad) =>{
       pinIcon,
     });
 
-    marker.addTo(map).bindPopup(createCustomPopup(element)),
+    marker.addTo(markerGroup).bindPopup(createCustomPopup(element)),
     {
       keepInView: true,
     };
   });
 };
 
-getData(generatePinMarker, showAlert);
+getData((ad) => {
+  generatePinMarker(ad);
+  mapFilterChange(debounce(() =>{markerGroup.clearLayers();  generatePinMarker(ad);}));
+});
 dataUserFormSubmit(resetMarker);

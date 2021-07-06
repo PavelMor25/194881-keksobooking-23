@@ -56,6 +56,13 @@ const onRoomChange = (evt) => {
   });
 };
 
+const mapFilterChange = (cb) => {
+  mapFiltersForm.addEventListener('change', () => {
+
+    cb();
+  });
+};
+
 adTitleInput.addEventListener('input', () => {
   const valueLength = adTitleInput.value.length;
   const minLengthTitle = adTitleInput.getAttribute('minlength');
@@ -151,4 +158,4 @@ const dataUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {diactivateForm, activateForm, adAddressInput, dataUserFormSubmit, resetForm};
+export {diactivateForm, activateForm, adAddressInput, dataUserFormSubmit, resetForm, mapFilterChange};
