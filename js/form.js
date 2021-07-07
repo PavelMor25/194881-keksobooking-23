@@ -56,6 +56,13 @@ const onRoomChange = (evt) => {
   });
 };
 
+const mapFilterChange = (cb) => {
+  mapFiltersForm.addEventListener('change', () => {
+
+    cb();
+  });
+};
+
 adTitleInput.addEventListener('input', () => {
   const valueLength = adTitleInput.value.length;
   const minLengthTitle = adTitleInput.getAttribute('minlength');
@@ -121,6 +128,7 @@ const createMessage = (message) => {
   };
 
   const openMessage = () => document.addEventListener('keydown', onMessageEscKeyDown);
+
   const closeMessage = () => document.removeEventListener('keydown', onMessageEscKeyDown);
 
   openMessage();
@@ -144,11 +152,11 @@ const dataUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     sendData(
-      () => {resetForm(onSuccess); createMessage('success');},
+      () => {onSuccess(); createMessage('success');},
       () => createMessage('error'),
       new FormData(evt.target),
     );
   });
 };
 
-export {diactivateForm, activateForm, adAddressInput, dataUserFormSubmit, resetForm};
+export {diactivateForm, activateForm, adAddressInput, dataUserFormSubmit, resetForm, mapFilterChange};

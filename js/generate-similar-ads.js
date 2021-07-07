@@ -71,6 +71,7 @@ similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, room
 });
 
 const createCustomPopup = ({author: {avatar}, offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}}) => {
+
   const popupElement = similarAdTemplate.cloneNode(true);
   checkFillData(title, popupElement, '.popup__title');
   checkFillData(address, popupElement, '.popup__text--address');
