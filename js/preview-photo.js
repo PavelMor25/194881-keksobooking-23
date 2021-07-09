@@ -18,6 +18,8 @@ inputAvatar.addEventListener('change', () => {
 inputImages.addEventListener('change', () => {
   const file = inputImages.files[0];
 
+  imagePreview.innerHTML = '';
+
   const reader = new FileReader();
 
   reader.addEventListener('load', () => {
@@ -31,3 +33,5 @@ inputImages.addEventListener('change', () => {
 
   reader.readAsDataURL(file);
 });
+
+export {avatarPreview, imagePreview};

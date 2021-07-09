@@ -1,6 +1,7 @@
 import {isEscEvent} from './utils.js';
 import {typeInform} from './generate-similar-ads.js';
 import {sendData} from './api.js';
+import {avatarPreview, imagePreview} from './preview-photo.js';
 
 const adForm = document.querySelector('.ad-form');
 const adFormElement = adForm.querySelectorAll('.ad-form__element');
@@ -31,6 +32,10 @@ const activateForm = () => {
   mapFiltersForm.classList.remove('ad-form--disabled');
   mapFiltersFormElements.forEach((item) => item.removeAttribute('disabled', null));
   mapFiltersFormFeatures.removeAttribute('disabled', null);
+};
+
+const fillAddressInput = (lat, lng) => {
+  adAddressInput.value = `${lat.toFixed(5) } ${lng.toFixed(5)}`;
 };
 
 
@@ -87,12 +92,9 @@ adTypeSelect.addEventListener('change', (evt) => {
 adPriceInput.addEventListener('input', () =>{
   const valueInput = adPriceInput.value;
   const minPrice = adPriceInput.getAttribute('min');
-  const maxPrice = adPriceInput.getAttribute('max');
 
   if (valueInput < minPrice) {
     adPriceInput.setCustomValidity(`Минимальная цена ${ minPrice}`);
-  } else if (valueInput > maxPrice) {
-    adPriceInput.setCustomValidity(`Максимальная цена ${ maxPrice}`);
   } else {
     adPriceInput.setCustomValidity('');
   }
@@ -142,6 +144,8 @@ const createMessage = (message) => {
 
 const resetForm = (resetMarker) => {
   adForm.reset();
+  avatarPreview.src = 'img/muffin-grey.svg';
+  imagePreview.innerHTML = '';
   mapFiltersForm.reset();
   onRoomChange(adRoomNumberSelect);
   resetMarker();
@@ -159,4 +163,6 @@ const dataUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {diactivateForm, activateForm, adAddressInput, dataUserFormSubmit, resetForm, mapFilterChange};
+diactivateForm();
+
+export {activateForm, fillAddressInput, dataUserFormSubmit, resetForm, mapFilterChange};

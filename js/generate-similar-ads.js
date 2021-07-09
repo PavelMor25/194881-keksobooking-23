@@ -1,9 +1,4 @@
-import {arrayLodging} from './data.js';
-
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAds = arrayLodging(10);
-
-const similarListFragment = document.createDocumentFragment();
 
 const renderPhotosAd = (element, photos) => {
   const listPhotos = element.querySelector('.popup__photos');
@@ -55,21 +50,6 @@ const typeInform = {
   hotel: {nameTranslate: 'Отель', minPrice: 3000},
 };
 
-similarAds.forEach(({author: {avatar}, offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}}) => {
-  const adElement = similarAdTemplate.cloneNode(true);
-  checkFillData(title, adElement, '.popup__title');
-  checkFillData(address, adElement, '.popup__text--address');
-  checkFillData(price, adElement, '.popup__text--price', `${price  } ₽/ночь`);
-  checkFillData(type, adElement, '.popup__type', typeInform[type].nameTranslate);
-  checkFillData(rooms, adElement, '.popup__text--capacity', `${rooms  } комнаты для ${  guests  } гостей`, guests);
-  checkFillData(checkin, adElement, '.popup__text--time', `Заезд после ${ checkin}, выезд до ${ checkout}`, checkout);
-  renderFeaturesAd(adElement, features);
-  checkFillData(description, adElement, '.popup__description');
-  renderPhotosAd(adElement, photos);
-  adElement.querySelector('.popup__avatar').src = avatar;
-  similarListFragment.appendChild(adElement);
-});
-
 const createCustomPopup = ({author: {avatar}, offer: {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos}}) => {
 
   const popupElement = similarAdTemplate.cloneNode(true);
@@ -87,4 +67,4 @@ const createCustomPopup = ({author: {avatar}, offer: {title, address, price, typ
   return popupElement;
 };
 
-export {typeInform, similarAds, createCustomPopup};
+export {typeInform, createCustomPopup};

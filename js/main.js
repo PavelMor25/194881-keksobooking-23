@@ -2,7 +2,7 @@ import {resetForm, dataUserFormSubmit, mapFilterChange} from './form.js';
 import {getData} from './api.js';
 import {debounce} from './utils/debounce.js';
 import {compareAd} from './filter.js';
-import {resetMarker, generatePinMarker, markerGroup} from './map.js';
+import {resetMarker, generatePinMarker, markerGroup, setStartAdress} from './map.js';
 import './preview-photo.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
@@ -13,6 +13,7 @@ getData((ad) => {
   resetButton.addEventListener('click', (evt) =>{
     evt.preventDefault();
     resetForm(resetMarker);
+    setStartAdress();
     markerGroup.clearLayers();
     generatePinMarker(ad);
   });
@@ -24,6 +25,7 @@ getData((ad) => {
 
   dataUserFormSubmit(() =>{
     resetForm(resetMarker);
+    setStartAdress();
     markerGroup.clearLayers();
     generatePinMarker(ad);
   });

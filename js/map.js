@@ -1,9 +1,17 @@
-import {activateForm, diactivateForm, adAddressInput} from './form.js';
+import {activateForm, fillAddressInput} from './form.js';
 import {createCustomPopup} from './generate-similar-ads.js';
 
-diactivateForm();
+const START_LAT = 35.6894;
+const START_LNG = 139.692;
 
-const map = L.map('map-canvas').on('load',() => {activateForm();}).setView({lat: 35.6894, lng: 139.692}, 10);
+const setStartAdress = () => fillAddressInput(START_LAT, START_LNG);
+
+const map = L.map('map-canvas')
+  .on('load',() => {
+    activateForm();
+    setStartAdress();
+  })
+  .setView({lat: START_LAT, lng: START_LNG}, 10);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -20,8 +28,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.6894,
-    lng: 139.692,
+    lat: START_LAT,
+    lng: START_LNG,
   },
   {
     draggable: true,
@@ -29,12 +37,13 @@ const mainPinMarker = L.marker(
   },
 );
 
-const resetMarker = () => mainPinMarker.setLatLng({lat: 35.6894, lng: 139.692});
+const resetMarker = () => mainPinMarker.setLatLng({lat: START_LAT, lng: START_LNG});
 
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
-  adAddressInput.value = evt.target.getLatLng();
+  const coordinate = evt.target.getLatLng();
+  fillAddressInput(coordinate.lat, coordinate.lng);
 });
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -64,4 +73,4 @@ const generatePinMarker = (ad) => {
   });
 };
 
-export {resetMarker, generatePinMarker, markerGroup};
+export {resetMarker, generatePinMarker, markerGroup, setStartAdress};
